@@ -3,6 +3,8 @@ inputs:
   version:
     default: '4.8.0'
     type: string
+  shell_1:
+    default: 'bash'
 
 outputs:
   Install-Dir:
@@ -20,23 +22,22 @@ runs:
 
     - name: Create build directory
       run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
-      shell: bash
+      shell: ${{ inputs.shell_1 }}
 
     - name: Configure
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ runner.temp }}/OpenCV  ${{ github.workspace }}/OpenCV
-      shell: bash
-
+      shell: ${{ inputs.shell_1 }}
 
     - name: Build
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --build .
-      shell: bash
+      shell: ${{ inputs.shell_1 }}
 
 
     - name: Install
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --install .
-      shell: bash
+      shell: ${{ inputs.shell_1 }}
 
 

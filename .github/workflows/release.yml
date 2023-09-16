@@ -1,0 +1,77 @@
+name: release
+
+run-name: ${{ github.actor }} ${{ github.event_name }} to ${{ github.base_ref }}
+on:
+
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build_test_package:
+    strategy:
+      matrix:
+        os: [ubuntu-latest,macos-latest,windows-latest]
+
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+
+    steps:
+
+      - name: Install dependencies on windows
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          choco install ninja cmake
+      - uses: ilammy/msvc-dev-cmd@v1
+
+      - name: Install dependencies on ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt-get update
+          sudo apt-get install ninja-build cmake doxygen
+
+      - name: Install dependencies on macos
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          brew install cmake ninja
+
+
+      - name: Build-install-OpenCV
+        if: startsWith(matrix.os, 'windows')
+        uses : EddyTheCo/install-OpenCV-action/@main
+        with:
+          shell_1: 'pwsh'
+
+      - name: Build-install-OpenCV
+        if: ${{ !startsWith(matrix.os, 'windows') }}
+        uses : EddyTheCo/install-OpenCV-action/@main
+
+
+
+      - name: Binary Package Macos
+        if: startsWith(matrix.os, 'macos')
+        working-directory: ${{runner.temp}}/OpenCVbuild
+        run: |
+          cpack -B package -G "TGZ" --config CPackConfig.cmake
+          cmake -E remove_directory package/_CPack_Packages
+
+      - name: Binary Package Windows
+        if: startsWith(matrix.os, 'windows')
+        working-directory: ${{runner.temp}}/OpenCVbuild
+        run: |
+          cpack -B package -G "TGZ" --config CPackConfig.cmake
+          cmake -E remove_directory package/_CPack_Packages
+
+      - name: Binary Package Ubuntu
+        if: startsWith(matrix.os, 'ubuntu')
+        working-directory: ${{runner.temp}}/OpenCVbuild
+        run: |
+          cpack -B package -G "TGZ" --config CPackConfig.cmake
+          cmake -E remove_directory package/_CPack_Packages
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os }}
+          path: ${{ runner.temp }}/OpenCVbuild/package/*
+
+
