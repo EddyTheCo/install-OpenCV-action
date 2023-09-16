@@ -1,0 +1,38 @@
+name: build-OpenCV
+inputs:
+  version:
+    default: '4.8.0'
+    type: string
+
+outputs:
+  Install-Dir:
+    value: ${{ runner.temp }}/OpenCV
+
+runs:
+  using: "composite"
+  steps:
+
+    - uses: actions/checkout@v3
+      with:
+        repository: opencv/opencv
+        ref: ${{ inputs.version }}
+        path: 'OpenCV'
+
+    - name: Create build directory
+      run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
+
+    - name: Configure
+      working-directory: ${{ runner.temp }}/OpenCVbuild
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ runner.temp }}/OpenCV  ${{ github.workspace }}/OpenCV
+
+
+    - name: Build
+      working-directory: ${{ runner.temp }}/OpenCVbuild
+      run: cmake --build .
+
+
+    - name: Install
+      working-directory: ${{ runner.temp }}/OpenCVbuild
+      run: cmake --install .
+
+
