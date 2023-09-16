@@ -20,19 +20,23 @@ runs:
 
     - name: Create build directory
       run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
+      shell: bash
 
     - name: Configure
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ runner.temp }}/OpenCV  ${{ github.workspace }}/OpenCV
+      shell: bash
 
 
     - name: Build
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --build .
+      shell: bash
 
 
     - name: Install
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --install .
+      shell: bash
 
 
