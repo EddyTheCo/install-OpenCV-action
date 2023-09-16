@@ -5,6 +5,8 @@ inputs:
     type: string
   shell_1:
     default: 'bash'
+  build_wasm:
+    default: false
 
 outputs:
   Install-Dir:
@@ -25,6 +27,13 @@ runs:
       shell: ${{ inputs.shell_1 }}
 
     - name: Configure
+      if: ${{ !inputs.build_wasm }}
+      working-directory: ${{ runner.temp }}/OpenCVbuild
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ runner.temp }}/OpenCV  ${{ github.workspace }}/OpenCV
+      shell: ${{ inputs.shell_1 }}
+    
+    - name: Configure-wasm
+      if: ${{ inputs.build_wasm }}
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ runner.temp }}/OpenCV  ${{ github.workspace }}/OpenCV
       shell: ${{ inputs.shell_1 }}
