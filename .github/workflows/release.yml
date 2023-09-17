@@ -58,13 +58,13 @@ jobs:
       - name: Package  
         run: |
           cmake -E make_directory ${{runner.temp}}/packages
-          cmake -E tar c OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}.tar -- ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}/ 
+          cmake -E tar c ${{runner.temp}}/packages/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}.tar -- ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}/ 
 
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }}
-          path: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
+          name: ${{ matrix.os }}-wasm_${{ matrix.build_wasm }
+          path: ${{ runner.temp }}/packages/*
 
 
   release:
