@@ -39,6 +39,11 @@ jobs:
         if: startsWith(matrix.os, 'macos')
         run: |
           brew install cmake ninja
+      
+      - name: check macos
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          which -a ranlib
 
           
       - uses: mymindstorm/setup-emsdk@v11
