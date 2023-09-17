@@ -40,25 +40,33 @@ jobs:
         run: |
           brew install cmake ninja
 
+          
+      - uses: mymindstorm/setup-emsdk@v11
+        if: matrix.build_wasm
+        with:
+          version: 3.1.25
+          actions-cache-folder: 'emsdk-cache'
 
-      - name: Build-install-OpenCV
+
+      - name: Build-install-OpenCV-windows
         if: startsWith(matrix.os, 'windows')
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
           shell_1: 'pwsh'
           Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }} 
+          build_wasm: ${{ matrix.build_wasm }}
 
       - name: Build-install-OpenCV
         if: ${{ !startsWith(matrix.os, 'windows') }}
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
-          build_wasm: matrix.build_wasm
+          build_wasm: ${{ matrix.build_wasm }}
           Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
 
-      - name: Package  
-        run: |
-          cmake -E make_directory ${{runner.temp}}/packages
-          cmake -E tar c ${{runner.temp}}/packages/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}.tar -- ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}/ 
+
+      - name: Package 
+        working-directory: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
+        run: cmake -E tar c ${{runner.temp}}/packages/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}.tar -- . 
 
 
       - uses: actions/upload-artifact@v3
