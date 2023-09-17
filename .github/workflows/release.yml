@@ -13,8 +13,12 @@ jobs:
       matrix:
         os: [ubuntu-latest,macos-latest,windows-latest]
         include:
-          - build_wasm: [true,false]
-            os: ubuntu-latest 
+          - os: ubuntu-latest 
+            build_wasm: [true,false]
+          - os: macos-latest 
+            build_wasm: false
+          - os: windows-latest 
+            build_wasm: false
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
@@ -43,38 +47,19 @@ jobs:
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
           shell_1: 'pwsh'
+          Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }} 
 
       - name: Build-install-OpenCV
         if: ${{ !startsWith(matrix.os, 'windows') }}
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
           build_wasm: matrix.build_wasm
-
-      - name: Binary Package Macos
-        if: startsWith(matrix.os, 'macos')
-        working-directory: ${{runner.temp}}/OpenCVbuild
-        run: |
-          cpack -B package -G "TGZ" --config CPackConfig.cmake
-          cmake -E remove_directory package/_CPack_Packages
-
-      - name: Binary Package Windows
-        if: startsWith(matrix.os, 'windows')
-        working-directory: ${{runner.temp}}/OpenCVbuild
-        run: |
-          cpack -B package -G "TGZ" --config CPackConfig.cmake
-          cmake -E remove_directory package/_CPack_Packages
-
-      - name: Binary Package Ubuntu
-        if: startsWith(matrix.os, 'ubuntu')
-        working-directory: ${{runner.temp}}/OpenCVbuild
-        run: |
-          cpack -B package -G "TGZ" --config CPackConfig.cmake
-          cmake -E remove_directory package/_CPack_Packages
+          Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }} 
 
       - uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os }}
-          path: ${{ runner.temp }}/OpenCVbuild/package/*
+          path: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
 
 
   release:
