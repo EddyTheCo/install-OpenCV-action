@@ -63,7 +63,7 @@ jobs:
 
       - uses: actions/upload-artifact@v3
         with:
-          name: ${{ matrix.os }}-wasm_${{ matrix.build_wasm }
+          name: ${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
           path: ${{ runner.temp }}/packages/*
 
 
