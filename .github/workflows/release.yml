@@ -12,7 +12,11 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest,windows-latest]
-
+        include:
+          os:ubuntu-latest 
+          build_wasm: true
+          os:ubuntu-latest 
+          build_wasm: false
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
@@ -45,8 +49,8 @@ jobs:
       - name: Build-install-OpenCV
         if: ${{ !startsWith(matrix.os, 'windows') }}
         uses : EddyTheCo/install-OpenCV-action/@main
-
-
+        with:
+          build_wasm: matrix.build_wasm
 
       - name: Binary Package Macos
         if: startsWith(matrix.os, 'macos')
