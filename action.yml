@@ -24,9 +24,9 @@ runs:
 
     - uses: mymindstorm/setup-emsdk@v11
       if: ${{ inputs.build_wasm }}
-        with:
-          version: 3.1.25
-          actions-cache-folder: 'emsdk-cache'
+      with:
+        version: 3.1.25
+        actions-cache-folder: 'emsdk-cache'
 
     - name: Create build directory
       run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
