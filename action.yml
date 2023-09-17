@@ -1,6 +1,6 @@
 name: build-OpenCV
 inputs:
-  qtVersion:
+  qtVersion: 
     default: '6.5.0'
     type: string
   version:
@@ -23,24 +23,24 @@ runs:
         ref: ${{ inputs.version }}
         path: 'OpenCV'
 
-    - name: Install Qt
-      uses: jurplel/install-qt-action@v3
-      with:
-        aqtversion: '==3.1.*'
-        version: ${{ inputs.qtVersion }}
-        host: 'linux'
-        target: 'desktop'
-        arch: 'gcc_64'
+    - name: Install Qt 
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==3.1.*'
+          version: ${{ inputs.qtVersion }}
+          host: 'linux'
+          target: 'desktop'
+          arch: 'gcc_64'
 
-    - name: Install Qt wasm
-      if: startsWith(inputs.build_wasm, 'true')
-      uses: jurplel/install-qt-action@v3
-      with:
-        aqtversion: '==3.1.*'
-        version: ${{ inputs.qtVersion }}
-        host: 'linux'
-        target: 'desktop'
-        arch: 'wasm_singlethread'
+      - name: Install Qt wasm
+        if: startsWith(inputs.build_wasm, 'true')
+        uses: jurplel/install-qt-action@v3
+        with:
+          aqtversion: '==3.1.*'
+          version: ${{ inputs.qtVersion }}
+          host: 'linux'
+          target: 'desktop'
+          arch: 'wasm_singlethread'
 
     - name: Create build directory
       run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
