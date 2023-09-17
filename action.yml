@@ -21,7 +21,7 @@ runs:
         path: 'OpenCV'
 
     - uses: mymindstorm/setup-emsdk@v11
-      if: ${{ inputs.build_wasm }}
+      if: inputs.build_wasm
       with:
         version: 3.1.25
         actions-cache-folder: 'emsdk-cache'
@@ -37,7 +37,7 @@ runs:
       shell: ${{ inputs.shell_1 }}
 
     - name: Configure-wasm
-      if: ${{ inputs.build_wasm }}
+      if: inputs.build_wasm 
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: emcmake cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }} -DBUILD_opencv_videoio=OFF -DBUILD_PERF_TESTS=OFF  -DBUILD_WASM_INTRIN_TESTS=OFF -DCV_ENABLE_INTRINSICS=OFF -DWITH_PTHREADS_PF=OFF -DBUILD_DOCS=OFF -DBUILD_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_python3=OFF -DBUILD_opencv_python2=OFF -DBUILD_opencv_js=ON -DBUILD_opencv_java=OFF -DBUILD_opencv_stitching=OFF -DBUILD_opencv_superres=OFF -DBUILD_opencv_highgui=OFF -DBUILD_opencv_videostab=OFF -DBUILD_opencv_videoio=OFF -DBUILD_opencv_shape=OFF -DBUILD_opencv_imgcodecs=OFF -DBUILD_opencv_photo=ON -DBUILD_opencv_ml=OFF -DBUILD_opencv_gapi=OFF -DBUILD_opencv_flann=ON -DBUILD_opencv_features2d=ON -DBUILD_opencv_dnn=ON -DBUILD_opencv_calib3d=ON -DBUILD_opencv_apps=OFF -DBUILD_ZLIB=ON -DWITH_QUIRC=ON -DWITH_ITT=OFF -DWITH_LAPACK=OFF -DWITH_LAPACK=OFF -DWITH_GPHOTO2=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCL_SVM=OFF -DWITH_OPENCL=OFF -DWITH_V4L=OFF -DWITH_TIFF=OFF -DWITH_TBB=OFF -DWITH_PNG=OFF -DWITH_OPENNI2=OFF -DWITH_OPENNI=OFF -DWITH_OPENVX=OFF -DWITH_OPENGL=OFF -DWITH_OPENEXR=OFF  -DWITH_WEBP=OFF -DWITH_JPEG=OFF -DWITH_JASPER=OFF -DWITH_IPP=OFF -DWITH_GTK_2_X=OFF -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWITH_FFMPEG=OFF -DWITH_EIGEN=OFF -DWITH_VTK=OFF -DWITH_ADE=OFF -DWITH_1394=OFF -DBUILD_SHARED_LIBS=OFF -DCV_TRACE=OFF -DCPU_DISPATCH='' -DCPU_BASELINE='' -DENABLE_PIC=FALSE  -DCMAKE_C_FLAGS='-s WASM=1 -s USE_PTHREADS=0' -DBUILD_OPENJPEG=OFF -DWITH_OPENJPEG=OFF  ${{ github.workspace }}/OpenCV
       shell: ${{ inputs.shell_1 }}
@@ -49,7 +49,7 @@ runs:
       shell: ${{ inputs.shell_1 }}
 
     - name: Build-wasm
-      if: ${{ inputs.build_wasm }}
+      if: inputs.build_wasm
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --build . -t opencv.js
       shell: ${{ inputs.shell_1 }}
