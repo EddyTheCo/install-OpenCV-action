@@ -12,13 +12,12 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest,macos-latest,windows-latest]
-        include:
-          - os: ubuntu-latest 
-            build_wasm: [true,false]
+        build_wasm: [true,false]
+        exclude:
           - os: macos-latest 
-            build_wasm: false
+            build_wasm: true
           - os: windows-latest 
-            build_wasm: false
+            build_wasm: true
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
@@ -54,7 +53,13 @@ jobs:
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
           build_wasm: matrix.build_wasm
-          Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }} 
+          Install-Dir: ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}
+
+      - name: Package  
+        run: |
+          cmake -E make_directory ${{runner.temp}}/packages
+          cmake -E tar c OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}.tar -- ${{ runner.temp }}/OpenCV-${{ matrix.os }}-wasm_${{ matrix.build_wasm }}/ 
+
 
       - uses: actions/upload-artifact@v3
         with:
