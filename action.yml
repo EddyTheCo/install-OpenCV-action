@@ -51,12 +51,6 @@ runs:
         ndk-version: r25c
         add-to-path: false
 
-    - name: List directories
-      if: ( ! startsWith(inputs.build_android,'none') )
-      working-directory: ${{ steps.setup-ndk.outputs.ndk-path }}
-      shell: 'bash'
-      run: ls -R  
-
 
     - uses: mymindstorm/setup-emsdk@v11
       if: startsWith(inputs.build_wasm,'true')
