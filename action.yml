@@ -27,6 +27,7 @@ runs:
       run: |
         choco install ninja cmake
     - uses: ilammy/msvc-dev-cmd@v1
+      if: startsWith(inputs.os, 'windows')
 
     - name: Install dependencies on ubuntu
       if: startsWith(inputs.os, 'ubuntu')
@@ -48,6 +49,13 @@ runs:
       with:
         ndk-version: r25c
         add-to-path: false
+
+    - name: List directories
+      if: ( ! startsWith(inputs.build_android,'none') )
+      working-directory: ${{ steps.setup-ndk.outputs.ndk-path }}
+      shell: 'bash'
+      run: ls -R  
+
 
     - uses: mymindstorm/setup-emsdk@v11
       if: startsWith(inputs.build_wasm,'true')
@@ -80,7 +88,7 @@ runs:
     - name: Configure-Android
       if: ( ! startsWith(inputs.build_android,'none') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ inputs.build_android }} -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  ${{ github.workspace }}/OpenCV
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ inputs.build_android }} -DANDROID_PLATFORM=30 -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  -DBUILD_PERF_TESTS=OFF  -DBUILD_WASM_INTRIN_TESTS=OFF  -DBUILD_DOCS=OFF -DBUILD_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_python3=OFF -DBUILD_opencv_python2=OFF -DBUILD_opencv_js=OFF -DBUILD_opencv_java=OFF ${{ github.workspace }}/OpenCV
       shell: 'bash'
 
     - name: Configure-Wasm
