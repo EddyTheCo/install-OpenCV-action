@@ -98,7 +98,7 @@ runs:
         -DBUILD_opencv_gapi=OFF 
         -DBUILD_opencv_flann=OFF 
         -DBUILD_opencv_features2d=OFF 
-        -DBUILD_opencv_calib3d=OFF 
+        -DBUILD_opencv_calib3d=ON 
         -DBUILD_opencv_apps=OFF 
         -DBUILD_PERF_TESTS=OFF  
         -DBUILD_WASM_INTRIN_TESTS=OFF 
@@ -184,7 +184,7 @@ runs:
         -DBUILD_opencv_gapi=OFF 
         -DBUILD_opencv_flann=OFF 
         -DBUILD_opencv_features2d=OFF 
-        -DBUILD_opencv_calib3d=OFF 
+        -DBUILD_opencv_calib3d=ON 
         -DBUILD_opencv_apps=OFF 
         -DBUILD_PERF_TESTS=OFF  
         -DBUILD_WASM_INTRIN_TESTS=OFF 
@@ -270,7 +270,7 @@ runs:
         -DBUILD_opencv_gapi=OFF 
         -DBUILD_opencv_flann=OFF 
         -DBUILD_opencv_features2d=OFF 
-        -DBUILD_opencv_calib3d=OFF 
+        -DBUILD_opencv_calib3d=ON 
         -DBUILD_opencv_apps=OFF 
         -DBUILD_PERF_TESTS=OFF  
         -DBUILD_WASM_INTRIN_TESTS=OFF 
@@ -356,7 +356,7 @@ runs:
         -DBUILD_opencv_gapi=OFF 
         -DBUILD_opencv_flann=OFF 
         -DBUILD_opencv_features2d=OFF 
-        -DBUILD_opencv_calib3d=OFF 
+        -DBUILD_opencv_calib3d=ON 
         -DBUILD_opencv_apps=OFF 
         -DBUILD_PERF_TESTS=OFF  
         -DBUILD_WASM_INTRIN_TESTS=OFF 
@@ -434,7 +434,7 @@ runs:
     - name: Build-wasm
       if: startsWith(inputs.build_wasm, 'true')
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: cmake --build . -t opencv.js
+      run: cmake --build . 
       shell: 'bash'
 
 
