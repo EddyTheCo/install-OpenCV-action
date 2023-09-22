@@ -12,6 +12,89 @@ inputs:
     default: 'none'
 
 runs:
+env:
+  CMAKE_VARS: '-DBUILD_opencv_js=OFF \ 
+        -DBUILD_JAVA=OFF \  
+        -DBUILD_ANDROID_EXAMPLES=OFF \ 
+        -DBUILD_ANDROID_PROJECTS=OFF \ 
+        -DBUILD_opencv_dnn=OFF \
+        -DBUILD_opencv_photo=OFF \ 
+        -DBUILD_opencv_objdetect=ON \ 
+        -DBUILD_opencv_video=OFF \ 
+        -DBUILD_opencv_imgproc=OFF \ 
+        -DBUILD_opencv_videoio=OFF \ 
+        -DBUILD_opencv_highgui=OFF \ 
+        -DBUILD_opencv_stitching=OFF \ 
+        -DBUILD_opencv_superres=OFF  \
+        -DBUILD_opencv_videostab=OFF \ 
+        -DBUILD_opencv_shape=OFF \ 
+        -DBUILD_opencv_imgcodecs=OFF \ 
+        -DBUILD_opencv_ml=OFF \
+        -DBUILD_opencv_gapi=OFF \
+        -DBUILD_opencv_flann=OFF \
+        -DBUILD_opencv_features2d=OFF \
+        -DBUILD_opencv_calib3d=OFF \
+        -DBUILD_opencv_apps=OFF \
+        -DBUILD_PERF_TESTS=OFF  \
+        -DBUILD_WASM_INTRIN_TESTS=OFF \
+        -DBUILD_DOCS=OFF \
+        -DBUILD_TESTS=OFF \
+        -DBUILD_PACKAGE=OFF \
+        -DBUILD_EXAMPLES=OFF \
+        -DBUILD_opencv_python3=OFF \
+        -DBUILD_opencv_python2=OFF \
+        -DBUILD_opencv_java=OFF \
+        -DCV_ENABLE_INTRINSICS=OFF \ 
+        -DWITH_PTHREADS_PF=OFF \
+        -DWITH_ITT=OFF \
+        -DWITH_LAPACK=OFF \
+        -DWITH_GPHOTO2=OFF \
+        -DWITH_OPENCLAMDBLAS=OFF \
+        -DWITH_OPENCLAMDFFT=OFF \
+        -DWITH_OPENCL_SVM=OFF \
+        -DWITH_OPENCL=OFF \
+        -DWITH_V4L=OFF \
+        -DWITH_TIFF=OFF \
+        -DWITH_TBB=OFF \
+        -DWITH_PNG=OFF \
+        -DWITH_OPENNI2=OFF \
+        -DWITH_OPENNI=OFF \
+        -DWITH_OPENVX=OFF \
+        -DWITH_OPENGL=OFF \
+        -DWITH_OPENEXR=OFF \
+        -DWITH_WEBP=OFF \
+        -DWITH_JPEG=OFF \
+        -DWITH_JASPER=OFF \
+        -DWITH_IPP=OFF \
+        -DWITH_GTK_2_X=OFF \
+        -DWITH_GTK=OFF \
+        -DWITH_GSTREAMER=OFF \
+        -DWITH_FFMPEG=OFF \
+        -DWITH_EIGEN=OFF \
+        -DWITH_VTK=OFF \
+        -DWITH_ADE=OFF \
+        -DWITH_1394=OFF  \
+        -DWITH_CUDA=OFF \
+        -DBUILD_ITT=OFF \
+        -DBUILD_opencv_ittnotify=OFF \
+        -DCV_TRACE=OFF \
+        -DWITH_VA_INTEL=OFF \
+        -DENABLE_SSE=OFF \
+        -DENABLE_SSE2=OFF \
+        -DBUILD_TESTING=OFF \
+        -DWITH_ARITH_DEC=OFF \
+        -DWITH_ARITH_ENC=OFF \
+        -DWITH_CUBLAS=OFF \
+        -DWITH_CUFFT=OFF \
+        -DWITH_GDAL=OFF \
+        -DWITH_HALIDE=OFF \
+        -DWITH_NVCUVID=OFF \
+        -DWITH_PROTOBUF=OFF \
+        -DWITH_QUIRC=OFF \
+        -DBUILD_OPENJPEG=OFF \
+        -DWITH_OPENJPEG=OFF \
+        -DBUILD_TESTING=OFF\'
+
   using: "composite"
   steps:
 
@@ -76,25 +159,33 @@ runs:
     - name: Configure-Desktop-Linux
       if: startsWith(inputs.build_wasm, 'false') && startsWith(inputs.build_android,'none') && (! startsWith(inputs.os,'windows') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release"  -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  ${{ github.workspace }}/OpenCV
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release"  -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}
+        "$CMAKE_VARS"
+        ${{ github.workspace }}/OpenCV
       shell: 'bash'
     
     - name: Configure-Desktop-Windows
       if: startsWith(inputs.os, 'windows') 
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release"  -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  ${{ github.workspace }}/OpenCV
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release"  -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}
+        "$CMAKE_VARS"
+        ${{ github.workspace }}/OpenCV
       shell: 'pwsh'
     
     - name: Configure-Android
       if: ( ! startsWith(inputs.build_android,'none') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: cmake -G Ninja -DCMAKE_BUILD_TYPE=RELEASE -DANDROID_NDK=${{ steps.setup-ndk.outputs.ndk-path }} -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ inputs.build_android }} -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  -DBUILD_opencv_js=OFF  -DBUILD_JAVA=OFF -DBUILD_ANDROID_EXAMPLES=OFF -DBUILD_ANDROID_PROJECTS=OFF -DANDROID_STL=c++_shared -DBUILD_SHARED_LIBS=ON -DBUILD_opencv_videoio=OFF -DBUILD_PERF_TESTS=OFF  -DBUILD_WASM_INTRIN_TESTS=OFF -DCV_ENABLE_INTRINSICS=OFF -DWITH_PTHREADS_PF=OFF -DBUILD_DOCS=OFF -DBUILD_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_python3=OFF -DBUILD_opencv_python2=OFF  -DBUILD_opencv_java=OFF -DBUILD_opencv_stitching=OFF -DBUILD_opencv_superres=OFF -DBUILD_opencv_highgui=OFF -DBUILD_opencv_videostab=OFF -DBUILD_opencv_videoio=OFF -DBUILD_opencv_shape=OFF -DBUILD_opencv_imgcodecs=OFF -DBUILD_opencv_ml=OFF -DBUILD_opencv_gapi=OFF -DBUILD_opencv_flann=OFF -DBUILD_opencv_features2d=OFF -DBUILD_opencv_dnn=OFF -DBUILD_opencv_calib3d=OFF -DBUILD_opencv_apps=OFF -DWITH_ITT=OFF -DWITH_LAPACK=OFF -DWITH_LAPACK=OFF -DWITH_GPHOTO2=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCL_SVM=OFF -DWITH_OPENCL=OFF -DWITH_V4L=OFF -DWITH_TIFF=OFF -DWITH_TBB=OFF -DWITH_PNG=OFF -DWITH_OPENNI2=OFF -DWITH_OPENNI=OFF -DWITH_OPENVX=OFF -DWITH_OPENGL=OFF -DWITH_OPENEXR=OFF  -DWITH_WEBP=OFF -DWITH_JPEG=OFF -DWITH_JASPER=OFF -DWITH_IPP=OFF -DWITH_GTK_2_X=OFF -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWITH_FFMPEG=OFF -DWITH_EIGEN=OFF -DWITH_VTK=OFF -DWITH_ADE=OFF -DWITH_1394=OFF  -DWITH_CUDA=OFF -DBUILD_ITT=OFF -DBUILD_opencv_ittnotify=OFF -DCV_TRACE=OFF -DWITH_VA_INTEL=OFF -DENABLE_SSE=OFF -DENABLE_SSE2=OFF -DBUILD_TESTING=OFF -DWITH_ARITH_DEC=OFF -DWITH_ARITH_ENC=OFF -DWITH_CUBLAS=OFF -DWITH_CUFFT=OFF -DWITH_GDAL=OFF -DWITH_HALIDE=OFF -DWITH_NVCUVID=OFF -DWITH_PROTOBUF=OFF -DWITH_QUIRC=OFF ${{ github.workspace }}/OpenCV
+      run: cmake -G Ninja -DCMAKE_BUILD_TYPE=RELEASE -DANDROID_NDK=${{ steps.setup-ndk.outputs.ndk-path }} -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ inputs.build_android }} -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }} -DANDROID_STL=c++_shared \
+        "$CMAKE_VARS"
+         ${{ github.workspace }}/OpenCV
       shell: 'bash'
 
     - name: Configure-Wasm
       if: startsWith(inputs.build_wasm, 'true')
       working-directory: ${{ runner.temp }}/OpenCVbuild
-      run: emcmake cmake -G Ninja -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }} -DBUILD_opencv_videoio=OFF -DBUILD_PERF_TESTS=OFF  -DBUILD_WASM_INTRIN_TESTS=OFF -DCV_ENABLE_INTRINSICS=OFF -DWITH_PTHREADS_PF=OFF -DBUILD_DOCS=OFF -DBUILD_TESTS=OFF -DBUILD_PACKAGE=OFF -DBUILD_EXAMPLES=OFF -DBUILD_opencv_python3=OFF -DBUILD_opencv_python2=OFF -DBUILD_opencv_js=ON -DBUILD_opencv_java=OFF -DBUILD_opencv_stitching=OFF -DBUILD_opencv_superres=OFF -DBUILD_opencv_highgui=OFF -DBUILD_opencv_videostab=OFF -DBUILD_opencv_videoio=OFF -DBUILD_opencv_shape=OFF -DBUILD_opencv_imgcodecs=OFF -DBUILD_opencv_photo=ON -DBUILD_opencv_ml=OFF -DBUILD_opencv_gapi=OFF -DBUILD_opencv_flann=ON -DBUILD_opencv_features2d=ON -DBUILD_opencv_dnn=ON -DBUILD_opencv_calib3d=ON -DBUILD_opencv_apps=OFF -DBUILD_ZLIB=ON -DWITH_QUIRC=ON -DWITH_ITT=OFF -DWITH_LAPACK=OFF -DWITH_LAPACK=OFF -DWITH_GPHOTO2=OFF -DWITH_OPENCLAMDBLAS=OFF -DWITH_OPENCLAMDFFT=OFF -DWITH_OPENCL_SVM=OFF -DWITH_OPENCL=OFF -DWITH_V4L=OFF -DWITH_TIFF=OFF -DWITH_TBB=OFF -DWITH_PNG=OFF -DWITH_OPENNI2=OFF -DWITH_OPENNI=OFF -DWITH_OPENVX=OFF -DWITH_OPENGL=OFF -DWITH_OPENEXR=OFF  -DWITH_WEBP=OFF -DWITH_JPEG=OFF -DWITH_JASPER=OFF -DWITH_IPP=OFF -DWITH_GTK_2_X=OFF -DWITH_GTK=OFF -DWITH_GSTREAMER=OFF -DWITH_FFMPEG=OFF -DWITH_EIGEN=OFF -DWITH_VTK=OFF -DWITH_ADE=OFF -DWITH_1394=OFF -DBUILD_SHARED_LIBS=OFF -DCV_TRACE=OFF -DCPU_DISPATCH='' -DCPU_BASELINE='' -DENABLE_PIC=FALSE  -DCMAKE_C_FLAGS='-s WASM=1 -s USE_PTHREADS=0' -DBUILD_OPENJPEG=OFF -DWITH_OPENJPEG=OFF -DBUILD_TESTING=OFF ${{ github.workspace }}/OpenCV
+      run: emcmake cmake -G Ninja -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }} \
+        "$CMAKE_VARS"
+        -DCV_TRACE=OFF -DCPU_DISPATCH='' -DCPU_BASELINE='' -DENABLE_PIC=FALSE  -DCMAKE_C_FLAGS='-s WASM=1 -s USE_PTHREADS=0'  ${{ github.workspace }}/OpenCV
       shell: 'bash'
 
     - name: Build-Linux
