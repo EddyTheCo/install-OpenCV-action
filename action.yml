@@ -42,7 +42,7 @@ runs:
         brew install cmake ninja
 
     - name: Configure NDK
-      if: ${{ !startsWith(inputs.build_android,"none") }}
+      if: ${{ !startsWith(inputs.build_android,'none') }}
       uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
@@ -109,11 +109,13 @@ runs:
 
 
     - name: Install-Linux
+      if: ${{ !startsWith(inputs.os,'windows') }}
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --install .
       shell: 'bash'
     
     - name: Install-Windows
+      if: startsWith(inputs.os,'windows')
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --install .
       shell: 'pwsh'
