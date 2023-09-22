@@ -86,7 +86,7 @@ runs:
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
         -DBUILD_opencv_video=OFF 
-        -DBUILD_opencv_imgproc=OFF 
+        -DBUILD_opencv_imgproc=ON 
         -DBUILD_opencv_videoio=OFF  
         -DBUILD_opencv_highgui=OFF  
         -DBUILD_opencv_stitching=OFF 
@@ -144,8 +144,6 @@ runs:
         -DBUILD_opencv_ittnotify=OFF 
         -DCV_TRACE=OFF 
         -DWITH_VA_INTEL=OFF 
-        -DENABLE_SSE=OFF 
-        -DENABLE_SSE2=OFF 
         -DBUILD_TESTING=OFF 
         -DWITH_ARITH_DEC=OFF 
         -DWITH_ARITH_ENC=OFF 
@@ -174,7 +172,7 @@ runs:
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
         -DBUILD_opencv_video=OFF 
-        -DBUILD_opencv_imgproc=OFF  
+        -DBUILD_opencv_imgproc=ON 
         -DBUILD_opencv_videoio=OFF  
         -DBUILD_opencv_highgui=OFF 
         -DBUILD_opencv_stitching=OFF  
@@ -232,8 +230,6 @@ runs:
         -DBUILD_opencv_ittnotify=OFF
         -DCV_TRACE=OFF 
         -DWITH_VA_INTEL=OFF 
-        -DENABLE_SSE=OFF 
-        -DENABLE_SSE2=OFF 
         -DBUILD_TESTING=OFF 
         -DWITH_ARITH_DEC=OFF 
         -DWITH_ARITH_ENC=OFF 
@@ -262,7 +258,7 @@ runs:
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
         -DBUILD_opencv_video=OFF 
-        -DBUILD_opencv_imgproc=OFF  
+        -DBUILD_opencv_imgproc=ON 
         -DBUILD_opencv_videoio=OFF  
         -DBUILD_opencv_highgui=OFF 
         -DBUILD_opencv_stitching=OFF  
@@ -320,8 +316,6 @@ runs:
         -DBUILD_opencv_ittnotify=OFF 
         -DCV_TRACE=OFF 
         -DWITH_VA_INTEL=OFF 
-        -DENABLE_SSE=OFF 
-        -DENABLE_SSE2=OFF 
         -DBUILD_TESTING=OFF 
         -DWITH_ARITH_DEC=OFF 
         -DWITH_ARITH_ENC=OFF 
@@ -335,7 +329,7 @@ runs:
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
-         ${{ github.workspace }}/OpenCV
+        -DBUILD_SHARED_LIBS=ON ${{ github.workspace }}/OpenCV
       shell: 'bash'
 
     - name: Configure-Wasm
@@ -350,7 +344,7 @@ runs:
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON  
         -DBUILD_opencv_video=OFF 
-        -DBUILD_opencv_imgproc=OFF  
+        -DBUILD_opencv_imgproc=ON 
         -DBUILD_opencv_videoio=OFF  
         -DBUILD_opencv_highgui=OFF  
         -DBUILD_opencv_stitching=OFF 
@@ -408,8 +402,6 @@ runs:
         -DBUILD_opencv_ittnotify=OFF 
         -DCV_TRACE=OFF 
         -DWITH_VA_INTEL=OFF 
-        -DENABLE_SSE=OFF 
-        -DENABLE_SSE2=OFF 
         -DBUILD_TESTING=OFF 
         -DWITH_ARITH_DEC=OFF 
         -DWITH_ARITH_ENC=OFF 
@@ -423,7 +415,8 @@ runs:
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
-        -DCV_TRACE=OFF -DCPU_DISPATCH='' -DCPU_BASELINE='' -DENABLE_PIC=FALSE  -DCMAKE_C_FLAGS='-s WASM=1 -s USE_PTHREADS=0'  ${{ github.workspace }}/OpenCV
+        -DCV_TRACE=OFF 
+        -DBUILD_SHARED_LIBS=OFF -DBUILD_ZLIB=ON -DCPU_DISPATCH='' -DCPU_BASELINE='' -DENABLE_PIC=FALSE  -DCMAKE_C_FLAGS='-s WASM=1 -s USE_PTHREADS=0'  ${{ github.workspace }}/OpenCV
       shell: 'bash'
 
     - name: Build-Linux
