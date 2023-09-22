@@ -42,7 +42,7 @@ runs:
         brew install cmake ninja
 
     - name: Configure NDK
-      if: ${{ !startsWith(inputs.build_android,'none') }}
+      if: ( ! startsWith(inputs.build_android,'none') )
       uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
@@ -56,7 +56,7 @@ runs:
         actions-cache-folder: 'emsdk-cache'
 
     - name: Create build directory-Linux
-      if: ${{ !startsWith(inputs.os, 'windows') }}
+      if: ( ! startsWith(inputs.os, 'windows') )
       run:  cmake -E make_directory ${{runner.temp}}/OpenCVbuild
       shell: 'bash'
     
@@ -66,7 +66,7 @@ runs:
       shell: 'pwsh'
 
     - name: Configure-Desktop-Linux
-      if: ${{ startsWith(inputs.build_wasm, 'false') && startsWith(inputs.build_android,'none') && !startsWith(inputs.os,'windows') }}
+      if: startsWith(inputs.build_wasm, 'false') && startsWith(inputs.build_android,'none') && (! startsWith(inputs.os,'windows') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release"  -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  ${{ github.workspace }}/OpenCV
       shell: 'bash'
@@ -78,7 +78,7 @@ runs:
       shell: 'pwsh'
     
     - name: Configure-Android
-      if: ${{ !startsWith(inputs.build_android,'none') }}
+      if: ( ! startsWith(inputs.build_android,'none') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake -G Ninja -DCMAKE_BUILD_TYPE="release" -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ inputs.build_android }} -DCMAKE_INSTALL_PREFIX=${{ inputs.Install-Dir }}  ${{ github.workspace }}/OpenCV
       shell: 'bash'
@@ -90,7 +90,7 @@ runs:
       shell: 'bash'
 
     - name: Build-Linux
-      if: ${{ startsWith(inputs.build_wasm, 'false') && !startsWith(inputs.os,'windows') }}
+      if: startsWith(inputs.build_wasm, 'false') && ( ! startsWith(inputs.os,'windows') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --build .
       shell: 'bash'
@@ -109,7 +109,7 @@ runs:
 
 
     - name: Install-Linux
-      if: ${{ !startsWith(inputs.os,'windows') }}
+      if: ( ! startsWith(inputs.os,'windows') )
       working-directory: ${{ runner.temp }}/OpenCVbuild
       run: cmake --install .
       shell: 'bash'
