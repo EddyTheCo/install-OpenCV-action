@@ -32,8 +32,18 @@ jobs:
 
     steps:
 
-      - name: Build-install-OpenCV
-        uses : EddyTheCo/install-OpenCV-action/@${{ github.base_ref }}
+      - name: Build-install-OpenCV-tag
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses : EddyTheCo/install-OpenCV-action/@main
+        with:
+          Install-Dir: ${{ runner.temp }}/OpenCV-install 
+          build_wasm: ${{ matrix.build_wasm }}
+          build_android: ${{ matrix.build_android }}
+          os: ${{ matrix.os }}  
+      
+      - name: Build-install-OpenCV-pr
+        if: startsWith(github.ref, 'refs/head/develop')
+        uses : EddyTheCo/install-OpenCV-action/@develop
         with:
           Install-Dir: ${{ runner.temp }}/OpenCV-install 
           build_wasm: ${{ matrix.build_wasm }}
