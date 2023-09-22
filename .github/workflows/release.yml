@@ -13,22 +13,17 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
+        build_wasm: [false]  
+        build_android: ['none']  
         include:
           - os: ubuntu-latest
             build_wasm: true
-            build_android: 'none'
           - os: ubuntu-latest
             build_wasm: false
             build_android: 'arm64-v8a'
           - os: ubuntu-latest
             build_wasm: false
             build_android: 'armeabi-v7a'
-          - os: macos-latest
-            build_wasm: false
-            build_android: 'none'
-          - os: windows-latest
-            build_wasm: false
-            build_android: 'none'
 
     runs-on: ${{ matrix.os }}
     continue-on-error: true
