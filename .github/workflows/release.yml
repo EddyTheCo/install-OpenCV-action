@@ -18,6 +18,7 @@ jobs:
         include:
           - os: ubuntu-latest
             build_wasm: true
+            build_android: 'none'
           - os: ubuntu-latest
             build_wasm: false
             build_android: 'arm64-v8a'
