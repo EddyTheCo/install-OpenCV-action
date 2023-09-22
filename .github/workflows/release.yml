@@ -33,7 +33,7 @@ jobs:
     steps:
 
       - name: Build-install-OpenCV
-        uses : EddyTheCo/install-OpenCV-action/@github.base_ref
+        uses : EddyTheCo/install-OpenCV-action/@${{ github.base_ref }}
         with:
           Install-Dir: ${{ runner.temp }}/OpenCV-install 
           build_wasm: ${{ matrix.build_wasm }}
