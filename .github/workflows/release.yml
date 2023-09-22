@@ -3,8 +3,8 @@ name: release
 run-name: ${{ github.actor }} ${{ github.event_name }} to ${{ github.base_ref }}
 on:
 
-  push
-   
+  push: 
+    branches: [testing]
   pull_request:
     branches: [develop]
 
