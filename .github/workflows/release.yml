@@ -3,31 +3,49 @@ name: release
 run-name: ${{ github.actor }} ${{ github.event_name }} to ${{ github.base_ref }}
 on:
 
-  push:
+  push: 
     tags:
-      - '*'
+      - 'v*'  
+  pull_request:
+    branches: [develop]
 
 jobs:
   build_test_package:
     strategy:
       matrix:
-        os: [ubuntu-latest,macos-latest,windows-latest]
-        build_wasm: [true,false]
-        build_android: ['none','arm64-v8a','armeabi-v7a']
-        exclude:
-          - os: macos-latest 
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        build_wasm: [false]  
+        build_android: ['none']  
+        include:
+          - os: ubuntu-latest
             build_wasm: true
-            build_android: ['arm64-v8a','armeabi-v7a']  
-          - os: windows-latest 
-            build_wasm: true
-            build_android: ['arm64-v8a','armeabi-v7a']  
+            build_android: 'none'
+          - os: ubuntu-latest
+            build_wasm: false
+            build_android: 'arm64-v8a'
+          - os: ubuntu-latest
+            build_wasm: false
+            build_android: 'armeabi-v7a'
+
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
     steps:
 
-      - name: Build-install-OpenCV-windows
+      - name: Build-install-OpenCV-tag
+        if: startsWith(github.ref, 'refs/tags/v')
         uses : EddyTheCo/install-OpenCV-action/@main
+        with:
+          Install-Dir: ${{ runner.temp }}/OpenCV-install 
+          build_wasm: ${{ matrix.build_wasm }}
+          build_android: ${{ matrix.build_android }}
+          os: ${{ matrix.os }}  
+      
+      - uses: actions/checkout@v3      
+        if: ( ! startsWith(github.ref, 'refs/tags/v'))
+      - name: Build-install-OpenCV-pr
+        if: ( ! startsWith(github.ref, 'refs/tags/v'))
+        uses : ./.github/actions/install-OpenCV-action
         with:
           Install-Dir: ${{ runner.temp }}/OpenCV-install 
           build_wasm: ${{ matrix.build_wasm }}
@@ -49,6 +67,7 @@ jobs:
 
 
   release:
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: build_test_package
     runs-on: ubuntu-latest
 
