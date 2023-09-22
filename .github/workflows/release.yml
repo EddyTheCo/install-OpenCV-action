@@ -41,9 +41,11 @@ jobs:
           build_android: ${{ matrix.build_android }}
           os: ${{ matrix.os }}  
       
+      - uses: actions/checkout@v1      
+        if: startsWith(github.ref, 'refs/head/develop')
       - name: Build-install-OpenCV-pr
         if: startsWith(github.ref, 'refs/head/develop')
-        uses : EddyTheCo/install-OpenCV-action/@develop
+        uses : ./.github/actions/ 
         with:
           Install-Dir: ${{ runner.temp }}/OpenCV-install 
           build_wasm: ${{ matrix.build_wasm }}
