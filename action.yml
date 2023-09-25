@@ -254,7 +254,7 @@ runs:
         -DBUILD_opencv_video=OFF 
         -DBUILD_opencv_imgproc=ON 
         -DBUILD_opencv_videoio=OFF  
-        -DBUILD_opencv_highgui=ON 
+        -DBUILD_opencv_highgui=OFF 
         -DBUILD_opencv_stitching=OFF  
         -DBUILD_opencv_superres=OFF  
         -DBUILD_opencv_videostab=OFF 
