@@ -147,7 +147,7 @@ runs:
         -DWITH_HALIDE=OFF 
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
-        -DWITH_QUIRC=OFF 
+        -DWITH_QUIRC=ON 
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
@@ -233,7 +233,7 @@ runs:
         -DWITH_HALIDE=OFF 
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
-        -DWITH_QUIRC=OFF 
+        -DWITH_QUIRC=ON 
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
@@ -319,7 +319,7 @@ runs:
         -DWITH_HALIDE=OFF 
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
-        -DWITH_QUIRC=OFF 
+        -DWITH_QUIRC=ON 
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
@@ -405,7 +405,7 @@ runs:
         -DWITH_HALIDE=OFF 
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
-        -DWITH_QUIRC=OFF 
+        -DWITH_QUIRC=ON 
         -DBUILD_OPENJPEG=OFF 
         -DWITH_OPENJPEG=OFF 
         -DBUILD_TESTING=OFF 
