@@ -33,7 +33,7 @@ jobs:
       - name: Build-install-OpenCV-tag
         uses : EddyTheCo/install-OpenCV-action/@main
         with:
-          version: '4.8.1'
+          version: '4.10.0'
           Install-Dir: ${{ runner.temp }}/OpenCV-install 
           build_wasm: ${{ matrix.build_wasm }}
           build_android: ${{ matrix.build_android }}
