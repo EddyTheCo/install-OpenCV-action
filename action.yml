@@ -79,9 +79,9 @@ runs:
         -DBUILD_opencv_dnn=OFF 
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
-        -DBUILD_opencv_video=OFF 
+        -DBUILD_opencv_video=ON 
         -DBUILD_opencv_imgproc=ON 
-        -DBUILD_opencv_videoio=OFF  
+        -DBUILD_opencv_videoio=ON  
         -DBUILD_opencv_highgui=OFF  
         -DBUILD_opencv_stitching=OFF 
         -DBUILD_opencv_superres=OFF  
@@ -165,9 +165,9 @@ runs:
         -DBUILD_opencv_dnn=OFF 
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
-        -DBUILD_opencv_video=OFF 
+        -DBUILD_opencv_video=ON 
         -DBUILD_opencv_imgproc=ON 
-        -DBUILD_opencv_videoio=OFF  
+        -DBUILD_opencv_videoio=ON  
         -DBUILD_opencv_highgui=OFF 
         -DBUILD_opencv_stitching=OFF  
         -DBUILD_opencv_superres=OFF  
@@ -251,9 +251,9 @@ runs:
         -DBUILD_opencv_dnn=OFF 
         -DBUILD_opencv_photo=OFF 
         -DBUILD_opencv_objdetect=ON 
-        -DBUILD_opencv_video=OFF 
+        -DBUILD_opencv_video=ON 
         -DBUILD_opencv_imgproc=ON 
-        -DBUILD_opencv_videoio=OFF  
+        -DBUILD_opencv_videoio=ON  
         -DBUILD_opencv_highgui=OFF 
         -DBUILD_opencv_stitching=OFF  
         -DBUILD_opencv_superres=OFF  
