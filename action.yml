@@ -122,7 +122,7 @@ runs:
         -DWITH_OPENGL=OFF 
         -DWITH_OPENEXR=OFF 
         -DWITH_WEBP=OFF 
-        -DWITH_JPEG=OFF 
+        -DWITH_JPEG=ON 
         -DWITH_JASPER=OFF 
         -DWITH_IPP=OFF 
         -DWITH_GTK_2_X=OFF 
@@ -148,8 +148,8 @@ runs:
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
         -DWITH_QUIRC=ON 
-        -DBUILD_OPENJPEG=OFF 
-        -DWITH_OPENJPEG=OFF 
+        -DBUILD_OPENJPEG=ON 
+        -DWITH_OPENJPEG=ON 
         -DBUILD_TESTING=OFF 
         ${{ github.workspace }}/OpenCV
       shell: 'bash'
@@ -208,7 +208,7 @@ runs:
         -DWITH_OPENGL=OFF 
         -DWITH_OPENEXR=OFF 
         -DWITH_WEBP=OFF 
-        -DWITH_JPEG=OFF 
+        -DWITH_JPEG=ON 
         -DWITH_JASPER=OFF 
         -DWITH_IPP=OFF 
         -DWITH_GTK_2_X=OFF 
@@ -234,8 +234,8 @@ runs:
         -DWITH_NVCUVID=OFF 
         -DWITH_PROTOBUF=OFF 
         -DWITH_QUIRC=ON 
-        -DBUILD_OPENJPEG=OFF 
-        -DWITH_OPENJPEG=OFF 
+        -DBUILD_OPENJPEG=ON 
+        -DWITH_OPENJPEG=ON 
         -DBUILD_TESTING=OFF 
         ${{ github.workspace }}/OpenCV
       shell: 'pwsh'
